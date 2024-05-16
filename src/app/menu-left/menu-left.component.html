@@ -1,0 +1,34 @@
+<ion-menu side="start" menuId="first" contentId="main">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-item class="ion-text-center">
+      <ion-icon name="people"></ion-icon>
+      <ion-label>
+        {{ nombre }}
+      </ion-label>
+      <ion-icon name="people"></ion-icon>
+    </ion-item>
+    <ion-list>
+      <ion-item (click)="updateProducts()">Actualizar Productos</ion-item>
+      <ion-item (click)="updateContacts()">Actualizar Contactos</ion-item>
+      <ion-item (click)="updateAll()">Actualizar Todo</ion-item>
+      <ion-item>
+        <p>Mostrar productos con stock en 0</p>
+        <ion-toggle
+          (ionChange)="MostrarZeroUpdate($event)"
+          [checked]="MostrarEnZero"
+        ></ion-toggle
+      ></ion-item>
+
+      <ion-item class="ion-text-center">
+        <ion-label> {{ version }} - SBO_CCFN_PROD </ion-label>
+      </ion-item>
+    </ion-list>
+    <div></div>
+  </ion-content>
+</ion-menu>
+<div id="main"></div>

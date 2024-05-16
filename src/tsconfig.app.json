@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "types": []
+  },
+
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts",
+    "src/app/pages/agenda/*",
+    "src/app/pages/cotizaciones/*",
+    "src/app/pages/cotizaciones-main/*",
+    "src/app/pages/entrega-pedido/*",
+    "src/app/pages/fecha-pago-pedido/*"
+  ]
+}

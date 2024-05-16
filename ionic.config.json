@@ -1,0 +1,8 @@
+{
+  "name": "appVentas",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,132 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="orderLsit"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Pedidos CCFN</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="order">
+  <ion-row>
+    <ion-col>
+      <h1>Forma de Pago</h1>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label>Tipo de Pago: {{order.PeyMethod}}</ion-label>
+      </ion-item>
+    </ion-col>
+    <!-- <ion-col>
+      <ion-item>
+        <ion-label>Documento: {{documento?.name}}</ion-label>
+      </ion-item>
+    </ion-col> -->
+  </ion-row>
+  <ion-row>
+    <!-- <ion-col>
+      <ion-item>
+        <ion-label>Ruta: {{ruta?.name}}</ion-label>
+      </ion-item>
+    </ion-col> -->
+    <ion-col>
+      <ion-item>
+        <ion-label>Moneda: {{order.DocCur}}</ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label
+          >Estatus: {{ Status[order.Estatus] }} {{ order.CANCELED > 'N' ?
+          '-CANCELADA' : '' }}</ion-label
+        >
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <h1>Recepción Producto</h1>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label>Fecha registro: {{ order.DocDate }} </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Fecha entrega: {{ order.DocDueDate }} </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label
+          >Fecha registro: {{ order.U_FECHAREG_PEDIDO }}
+          {{order.U_HORAREG_PEDIDO}}
+        </ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <h1>Detalle Pedido</h1>
+    </ion-col>
+  </ion-row>
+  <ion-list>
+    <ion-row *ngFor="let product of order.Detail">
+      <ion-col size="9" size-lg size="12" size-sm>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>
+              <p class="Producto" [ngClass]="{'Falta' : product.OpenQty>0}">
+                {{product.ItemCode}}
+              </p>
+            </ion-card-subtitle>
+            <ion-card-title> {{product.Dscription}} </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Price: {{ (product.Price |number ) }} {{ product.Currency }}</p>
+            <p>Cantidad:</p>
+            <p>{{ (product.Quantity | number) }} - {{product.UomCode}}</p>
+            <p>{{ (product.InvQty | number) }} - {{product.UomCode2}}</p>
+            <ion-badge
+              slot="end"
+              style="font-size: 16px"
+              color="warning"
+              *ngIf="product.OpenQty>0"
+              >Falta entregar: {{product.OpenQty | number}} {{product.UomCode}}
+            </ion-badge>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+  <ion-row>
+    <ion-col>
+      <h1>Dirección de Envió</h1>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>
+            <p>{{order.CardName}}</p>
+            <p>{{order.CardFName}}</p>
+          </ion-card-subtitle>
+          <!-- <ion-card-title>
+            {{order.CardName}}
+          </ion-card-title> -->
+        </ion-card-header>
+        <ion-card-content> Dirección: {{ order.Address }} </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+  <ion-item>
+    <ion-list>
+      <ion-item *ngIf="order.DocCur=='MXN'">
+        <h1>Total: {{order.DocTotal}} {{order.DocCur}}</h1>
+      </ion-item>
+      <ion-item *ngIf="order.DocCur=='USD'">
+        <h1>Total: {{order.DocTotalFC}} {{order.DocCur}}</h1>
+      </ion-item>
+    </ion-list>
+  </ion-item>
+</ion-content>

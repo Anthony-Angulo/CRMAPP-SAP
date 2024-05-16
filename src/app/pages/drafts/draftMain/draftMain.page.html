@@ -1,0 +1,54 @@
+<ion-header no-border>
+  <ion-toolbar class="tool-bar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cotizaciones CCFN</ion-title>
+  </ion-toolbar>
+  <img style="width:100%;" src="../../../assets/icon/market.png" alt="">
+</ion-header>
+
+<ion-content>
+  <ion-row style="height: 25% !important;">
+    <ion-col style="width: auto !important;height: 75% !important;">
+      <h1>Cotizaciones CCFN</h1>
+    </ion-col>
+  </ion-row>
+  <ion-row style="height: 75% !important;">
+    <ion-col>
+      <img style="width: auto !important;height: 75% !important;" [src]="'../../../assets/img/pedidos-phone.png'" src="" alt="">
+    </ion-col>
+  </ion-row>
+</ion-content>
+
+<ion-footer no-shadow style="height:20%;">
+  <ion-toolbar position="bottom" class="foo-tool ion-no-padding">
+    <div style="position:relative;z-index:2;">
+      <ion-row style="padding-top: 3%">
+        <ion-col>
+          <ion-button class="allPedidos" [routerLink]="['/draftList']">
+            <ion-icon name="clipboard"></ion-icon>Todas las Cotizaciones
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row style="height: -webkit-fill-available">
+        <ion-col>
+          <ion-button class="foot-but" size="{{button_size}}" routerLink="/dashboard">
+            <ion-icon name="apps"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button class="foot-but" size="{{button_size}}" routerLink="/draftCreate">
+            <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button class="foot-but" size="{{button_size}}" routerLink="/notifications">
+            <ion-icon slot="icon-only" name="notifications"></ion-icon>
+            <ion-badge color="danger">{{notificationCounts}}</ion-badge>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-toolbar>
+</ion-footer>

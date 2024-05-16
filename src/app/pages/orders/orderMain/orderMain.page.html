@@ -1,0 +1,66 @@
+<ion-header no-border>
+    <ion-toolbar class="tool-bar">
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="dashboard"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Pedidos NO enviados CCFN</ion-title>
+    </ion-toolbar>
+    <img style="width:100%;" src="../../../assets/icon/market.png" alt="">
+</ion-header>
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+
+    <div *ngIf="pendingOrderList.length > 0">Ordenes Pendientes</div>
+    <ion-virtual-scroll [items]="pendingOrderList">
+        <ion-item *virtualItem="let order; let index=index" [routerLink]="['/orderPendingDetail', index]">
+            <ion-card style="width: 100%">
+                <!-- <ion-card-header>
+          <ion-card-title>
+            <p>Numero Pedido: {{order.order.order_number}}</p>
+          </ion-card-title>
+        </ion-card-header> -->
+                <ion-card-content>
+                    <p>Enviar a: {{order.contact.CardName}}</p>
+                </ion-card-content>
+            </ion-card>
+        </ion-item>
+    </ion-virtual-scroll>
+</ion-content>
+
+<ion-footer no-shadow style="height:20%;">
+    <ion-toolbar position="bottom" class="foo-tool ion-no-padding">
+        <div style="position:relative;z-index:2;">
+            <ion-row style="padding-top: 3%">
+                <ion-col>
+                    <ion-button class="allPedidos" [routerLink]="['/orderList']">
+                        <ion-icon name="clipboard"></ion-icon>Mis Pedidos Registrados
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row style="height: -webkit-fill-available;">
+                <!--
+        <ion-col>
+          <ion-button class="foot-but" size="{{button_size}}" routerLink="/dashboard">
+            <ion-icon name="apps"></ion-icon>
+          </ion-button>
+        </ion-col>
+            -->
+                <ion-col>
+                    <ion-button class="foot-but" disabled="{{CanSale}}" size="{{button_size}}" routerLink="/orderCreate">
+                        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+                    </ion-button>
+                </ion-col>
+                <!--
+          <ion-col>
+          <ion-button class="foot-but" size="{{button_size}}" routerLink="/notifications">
+            <ion-icon slot="icon-only" name="notifications"></ion-icon>
+            <ion-badge color="danger">{{notificationCounts}}</ion-badge>
+          </ion-button>
+        </ion-col>
+      -->
+            </ion-row>
+        </div>
+    </ion-toolbar>
+</ion-footer>

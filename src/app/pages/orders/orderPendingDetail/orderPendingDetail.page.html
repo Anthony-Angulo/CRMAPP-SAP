@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="orderList"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Pedidos CCFN</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="order">
+
+  <ion-list>
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-subtitle>{{order.contact.CardName}}</ion-card-subtitle>
+        <ion-card-subtitle>{{order.contact.CardFName}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Codigo Cliente: {{order.contact.CardCode}}</p>
+        <p>Direccion: {{order.contact.Address}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label>Pago</ion-label>
+        {{ order.payment.PymntGroup }}
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label>Sucursal</ion-label>
+        {{ order.warehouse.WhsName }}
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label>Fecha</ion-label>
+        {{ order.date }}
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label>Observaciones</ion-label>
+        {{ order.comments }}
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col style="text-align:center;">
+      <h2>Detalle Pedido</h2>
+    </ion-col>
+  </ion-row> 
+  <ion-list>
+    <ion-row *ngFor="let product of order.products">
+      <ion-col size="9" size-lg size="12" size-sm>
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>
+              {{product.product.ItemCode}}
+            </ion-card-subtitle>
+            <ion-card-title>
+              {{product.product.ItemName}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Price: {{ (product.seletedPriceList.Price |number ) }} {{ product.seletedPriceList.Currency }}<br>
+            Cantidad: {{ (product.Quantity) }} - {{product.seletedUM.UomCode}}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+
+  <ion-button expand="block" class="round" [disabled]="disableButton" (click)="disableButton=true;delete()">
+    Borrar
+  </ion-button>
+  <ion-button expand="block" class="round" [disabled]="disableButton" (click)="disableButton=true;send()">
+    Intentar Registrar
+  </ion-button>
+</ion-content>

@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="pedidos-main"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Todas las Cotizaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="!draftList">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <p>No hay cotizaciones almacenadas.</p>
+        </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </div>
+  <ion-virtual-scroll [items]="draftList">
+    <ion-item *virtualItem="let draft; let index=index" [routerLink]="['/draftDetail', index]">
+      <ion-card style="width: 100%">
+        <ion-card-header>
+          <ion-card-title>
+            <p>Contact: {{ draft.contact.CardFName }}</p>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Fecha: {{ draft.date }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-virtual-scroll>
+</ion-content>

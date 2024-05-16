@@ -1,0 +1,271 @@
+<ion-header>
+  <ion-toolbar class="tool-bar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="orderMain"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button id="changeText" (click)="restart()">
+        <ion-icon slot="start" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Pedidos CCFN</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h6>Cliente</h6>
+
+  <ion-searchbar
+    #clientSearchBar
+    placeholder="Buscar Cliente"
+    debounce="500"
+    (ionInput)="searchContacts($event.target.value);"
+    clear-icon
+  ></ion-searchbar>
+
+  <ion-list style="display: inline" *ngIf="contactListSearchBar?.length">
+    <ion-virtual-scroll approxItemHeight="80" [items]="contactListSearchBar">
+      <ion-item *virtualItem="let contact" (click)="addContact(contact)" detail>
+        {{contact.CardCode}} - {{contact.CardName}} - {{contact.CardFName}}
+      </ion-item>
+    </ion-virtual-scroll>
+  </ion-list>
+
+  <ion-list *ngIf="contact">
+    <ion-card color="light" class="cBord" (click)="ModalClientes(contact)">
+      <ion-card-header class="cardH">
+        <ion-card-subtitle>{{contact.CardName}}</ion-card-subtitle>
+        <ion-card-subtitle>{{contact.CardFName}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Codigo Cliente: {{contact.CardCode}}</p>
+        <p>Direccion: {{contact.Address}}</p>
+        <p>Lista de Precio: {{ priceListSelected }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <h6>
+    <ion-chip>
+      <ion-icon name="md-cash"></ion-icon>
+      <ion-label>Pago</ion-label>
+    </ion-chip>
+  </h6>
+  <ion-row>
+    <ion-col>
+      <ion-item class="sucItem" [disabled]="!contact">
+        <ion-label>Pago</ion-label>
+        <ion-select
+          [(ngModel)]="payment"
+          okText="Aceptar"
+          cancelText="Cancelar"
+          placeholder="Seleccionar"
+        >
+          <ion-select-option *ngFor="let pay of paymentTerms" [value]="pay">
+            {{pay.PymntGroup}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <h6>
+    <ion-chip>
+      <ion-icon name="md-albums"></ion-icon>
+      <ion-label>Sucursal</ion-label>
+    </ion-chip>
+  </h6>
+  <ion-row>
+    <ion-col>
+      <ion-item class="sucItem" [disabled]="!payment">
+        <ion-label>Sucursal</ion-label>
+        <ion-select
+          [(ngModel)]="warehouse"
+          okText="Aceptar"
+          cancelText="Cancelar"
+          placeholder="Seleccionar"
+          (ionChange)="cambioSucursal($event)"
+        >
+          <ion-select-option *ngFor="let suc of warehouseList" [value]="suc">
+            {{suc.WhsName}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-icon name="md-calendar"></ion-icon>
+        <ion-label>Fecha</ion-label>
+        <ion-datetime
+          [(ngModel)]="date"
+          picker-format="DD MMM YYYY"
+          displayFormat="MMM-DD-YYYY"
+          min="{{minDate | date: 'yyyy-MM-dd'}}"
+          max="{{maxDate | date: 'yyyy-MM-dd'}}"
+          placeholder="Select Date"
+        >
+        </ion-datetime>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label position="floating">Observaciones</ion-label>
+        <ion-textarea [(ngModel)]="comments" maxlength="230"></ion-textarea>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <h6>
+    Productos
+    <ion-chip (click)="AgregarGuardados()" *ngIf="Guardados>0 && warehouse">
+      <ion-icon name="cart"></ion-icon>
+      <ion-label>Guardados:{{Guardados}}</ion-label>
+    </ion-chip>
+    <ion-chip *ngIf="products.length>0 && warehouse">
+      <ion-icon name="cart"></ion-icon>
+      <ion-label>Productos:{{products.lengt}}</ion-label>
+    </ion-chip>
+  </h6>
+  <ion-searchbar
+    [disabled]="!warehouse"
+    #productSearchBar
+    placeholder="Buscar Producto"
+    (ionInput)="searchProducts($event.target.value);"
+  ></ion-searchbar>
+
+  <ion-list style="display: flex" *ngIf="productListSearchBar?.length">
+    <ion-virtual-scroll approxItemHeight="150" [items]="productListSearchBar">
+      <ion-item
+        *virtualItem="let product"
+        color="light"
+        detail
+        [disabled]="!product.stockSelected"
+      >
+        <!--<div *ngIf="!product.stockSelected">-- NO STOCK -- </div>-->
+        <div></div>
+        <div>
+          <ion-checkbox
+            type="checkbox"
+            (ngModel)="product.checked"
+            (ionChange)="Added(product,$event)"
+          ></ion-checkbox>
+          <p style="margin-bottom: 0">{{product.ItemName}}</p>
+          <ion-badge
+            slot="end"
+            style="font-size: 16px"
+            color="success"
+            *ngIf="product.stockSelected && product.stockSelected.OnHand>20"
+          >
+            {{product.stockSelected.OnHand}}
+          </ion-badge>
+          <ion-badge
+            slot="end"
+            style="font-size: 16px"
+            color="warning"
+            *ngIf="product.stockSelected && product.stockSelected.OnHand<20 && product.stockSelected.OnHand>0"
+          >
+            {{product.stockSelected.OnHand}}
+          </ion-badge>
+          <ion-badge
+            slot="end"
+            style="font-size: 16px"
+            color="danger"
+            *ngIf="!product.stockSelected"
+          >
+            -- NO STOCK --
+          </ion-badge>
+        </div>
+      </ion-item>
+    </ion-virtual-scroll>
+  </ion-list>
+  <ion-fab
+    *ngIf="!(!contact || !productsToAdd?.length || disableButton)"
+    slot="fixed"
+    [activated]="!contact || !productsToAdd?.length || disableButton"
+    vertical="bottom"
+    horizontal="end"
+  >
+    <ion-fab-button (click)="AddProductsFromList()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-list>
+    <ion-row
+      *ngFor="let product of products;let index=index"
+      (click)="presentModal(product)"
+    >
+      <ion-col size="9" size-lg size="12" size-sm>
+        <ion-card class="cardProd">
+          <ion-card-header class="cardHProd">
+            <ion-card-subtitle>
+              Codigo ItemCode: {{product.product.ItemCode}} <br />
+              ItemName: {{product.product.ItemName}} <br />
+              <ion-badge> Stock:{{product.stockSelected.OnHand}}</ion-badge>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            Cantidad<br />
+            {{product.Quantity}} {{ product.seletedUM.UomCode }} / {{
+            product.Quantity * product.seletedUM.BaseQty }} {{
+            product.seletedUM.BASEUOM }}
+            <ion-button
+              class="prodCont"
+              color="danger"
+              (click)="eliminarProducto(index)"
+            >
+              <ion-icon name="trash" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <h6>Tipo de Cambio</h6>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-textarea disabled [ngModel]="currencyRate"></ion-textarea>
+          <ion-button (click)="presentPrompt()"
+            >Cambiar Tipo de Cambio</ion-button
+          >
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <h6 *ngIf="total || totalUSD">Totales</h6>
+    <div *ngIf="total || totalUSD">
+      <ion-list>
+        <ion-item
+          *ngIf="total"
+          lines="none"
+          style="border-bottom: 1px solid #000000"
+        >
+          <h4>Total Pesos: {{total.toFixed(2)}} MXN</h4>
+        </ion-item>
+        <br />
+        <ion-item
+          *ngIf="totalUSD"
+          lines="none"
+          style="border-bottom: 1px solid #000000"
+        >
+          <h4>Total Dolares: {{totalUSD.toFixed(2)}} USD</h4>
+        </ion-item>
+      </ion-list>
+    </div>
+    <ion-button
+      class="contB"
+      [disabled]="!contact || !products?.length || disableButton"
+      expand="full"
+      shape="round"
+      style="height: 50px"
+      (click)="disableButton=true;entregaPedido()"
+      >Crear Pedido</ion-button
+    >
+  </ion-list>
+</ion-content>

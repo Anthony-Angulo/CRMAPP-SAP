@@ -1,0 +1,28 @@
+.Pedido::after {
+  content: "";
+  position: absolute;
+  width: 2rem;
+  height: 1.5rem;
+  border-radius: 20px;
+  display: inline-block;
+  right: 0;
+  top: 0;
+  background-color: #3f4a3c;
+}
+
+.Aprobada::after {
+  background-color: #252850;
+}
+.Modificando::after {
+  background-color: #d8a460;
+}
+.Visualizando::after {
+  background-color: #b5b2b2;
+}
+.No_Aprobada::after {
+  background-color: red;
+}
+
+.Abierto::after {
+  background-color: green;
+}

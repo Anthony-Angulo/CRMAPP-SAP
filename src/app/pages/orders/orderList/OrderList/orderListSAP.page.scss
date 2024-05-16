@@ -1,0 +1,23 @@
+.Pedido::after {
+    content: '';
+    position: absolute;
+    width: 2rem;
+    height: 1.5rem;
+    border-radius: 20px;
+    display: inline-block;
+    right: 0;
+    top: 0;
+    background-color: #3F4A3C;
+}
+
+.Abierto::after {
+    background-color: green;
+}
+
+.Cancelada::after {
+    background-color: red;
+}
+
+.Parcial::after {
+    background-color: rgb(255, 153, 0);
+}

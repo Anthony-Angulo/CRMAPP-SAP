@@ -1,0 +1,136 @@
+<ion-header>
+  <ion-toolbar class="tool-bar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="pedidos-main"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cotizacion CCFN</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h6>Cliente</h6>
+
+  <ion-searchbar #clientSearchBar placeholder="Buscar Cliente" debounce="500" (ionInput)="searchContacts($event.target.value);"
+    clear-icon></ion-searchbar>
+
+  <ion-list *ngIf="contactListSearchBar?.length">
+    <ion-virtual-scroll [items]="contactListSearchBar">
+      <ion-item *virtualItem="let contact" (click)="addContact(contact)" detail>
+        {{contact.CardName}} - {{contact.CardFName}}
+      </ion-item>
+    </ion-virtual-scroll>
+  </ion-list>
+
+  <ion-list *ngIf="contact">
+    <ion-card color="light" class="cBord">
+      <ion-card-header class="cardH">
+        <ion-card-subtitle>{{contact.CardName}}</ion-card-subtitle>
+        <ion-card-subtitle>{{contact.CardFName}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Codigo Cliente: {{contact.CardCode}}</p>
+        <p>Direccion: {{contact.Address}}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <h6>Pago</h6>
+  <ion-row>
+    <ion-col>
+      <ion-item class="sucItem" [disabled]="!contact">
+        <ion-label>Pago</ion-label>
+        <ion-select [(ngModel)]="payment" okText="Aceptar" cancelText="Cancelar" placeholder="Seleccionar">
+          <ion-select-option *ngFor="let pay of paymentTerms" [value]="pay">
+            {{pay.PymntGroup}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <h6>Sucursal</h6>
+  <ion-row>
+    <ion-col>
+      <ion-item class="sucItem" [disabled]="!payment">
+        <ion-label>Sucursal</ion-label>
+        <ion-select [(ngModel)]="warehouse" okText="Aceptar" cancelText="Cancelar" placeholder="Seleccionar"
+          (ionChange)="cambioSucursal($event)">
+          <ion-select-option *ngFor="let suc of warehouseList" [value]="suc">
+            {{suc.WhsName}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label>Fecha</ion-label>
+        <ion-datetime [(ngModel)]="date" picker-format="DD MMM YYYY" displayFormat="MMM-DD-YYYY"
+          min="{{minDate | date: 'yyyy-MM-dd'}}" max="{{maxDate | date: 'yyyy-MM-dd'}}" placeholder="Select Date">
+        </ion-datetime>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label position="floating">Observaciones</ion-label>
+        <ion-textarea [(ngModel)]="comments"></ion-textarea>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <h6>Productos</h6>
+  <ion-searchbar [disabled]="!warehouse" #productSearchBar placeholder="Buscar Producto"
+    (ionInput)="searchProducts($event.target.value);"></ion-searchbar>
+
+  <ion-list *ngIf="productListSearchBar?.length">
+    <ion-virtual-scroll [items]="productListSearchBar">
+      <ion-item *virtualItem="let product" color="light" (click)="addProduct(product)" detail [disabled]="product.stockSelected.OnHand == 0">
+        <div *ngIf="product.stockSelected.OnHand == 0">-- NO STOCK -- </div>
+        {{product.ItemName}}
+      </ion-item>
+    </ion-virtual-scroll>
+  </ion-list>
+  <ion-list>
+
+    <ion-row *ngFor="let product of products;let index=index" (click)="presentModal(product)">
+      <ion-col size="9" size-lg size="12" size-sm>
+        <ion-card class="cardProd">
+          <ion-card-header class="cardHProd">
+            <ion-card-subtitle>
+              Codigo ItemCode: {{product.product.ItemCode}} <br>
+              ItemName: {{product.product.ItemName}}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            Cantidad<br>
+            {{product.Quantity}} {{ product.seletedUM.UomCode }} /
+            {{ product.Quantity * product.seletedUM.BaseQty }} {{ product.seletedUM.BASEUOM }}
+            <ion-button class="prodCont" color="danger" (click)="eliminarProducto(index)">
+              <ion-icon name="trash" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <h6>Totales</h6>
+    <div *ngIf="total || totalDolares">
+      <ion-list>
+        <ion-item *ngIf="total" lines="none" style="border-bottom: 1px solid #000000">
+          <h4>Total Pesos: {{total.toFixed(2)}} MXN</h4>
+        </ion-item>
+        <br>
+        <ion-item *ngIf="totalDolares" lines="none" style="border-bottom: 1px solid #000000;">
+          <h4>Total Dolares: {{totalDolares.toFixed(2)}} USD</h4>
+        </ion-item>
+      </ion-list>
+    </div>
+    <ion-button class="contB" [disabled]="!contact || !products?.length || disableButton" expand="full" shape="round"
+      style="height: 50px" (click)="disableButton=true;entregaPedido()">Crear Pedido</ion-button>
+  </ion-list>
+</ion-content>

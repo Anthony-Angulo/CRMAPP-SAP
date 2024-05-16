@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="orderMain"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Pedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-fab slot="fixed" vertical="top" horizontal="end">
+  <ion-fab-button>
+    <ion-icon name="chevron-down-circle"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="bottom">
+    <ion-fab-button (click)="ShowAuth()">
+      <ion-icon name="document-lock-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="ShowSAP()">
+      <ion-icon name="bag-check-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
+
+<ion-content>
+  <!-- <div *ngIf="pendingOrderList.length > 0">Ordenes Pendientes</div>
+  <ion-virtual-scroll [items]="pendingOrderList">
+    <ion-item *virtualItem="let order; let index=index" [routerLink]="['/orderPendingDetail', index]">
+      <ion-card style="width: 100%"> -->
+  <!-- <ion-card-header>
+          <ion-card-title>
+            <p>Numero Pedido: {{order.order.order_number}}</p>
+          </ion-card-title>
+        </ion-card-header> -->
+  <!-- <ion-card-content>
+          <p>Enviar a: {{order.contact.CardFName}}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-virtual-scroll> -->
+  <app-orderlistAuth [hidden]="!Autorizaciones"></app-orderlistAuth>
+  <app-orderlistSAP [hidden]="Autorizaciones"></app-orderlistSAP>
+
+  <!--<div *ngIf="orderList.length > 0">Ordenes</div>
+  <ion-virtual-scroll [items]="orderList">
+    <ion-item
+      *virtualItem="let order; let index=index"
+      [routerLink]="['/orderDetail', order.DocEntry]"
+    >
+      <ion-card style="width: 100%">
+        <ion-card-header>
+          <ion-card-title>
+            <div>
+              <div [ngClass]="[Status[order.Estatus],'Pedido']">
+                Pedido: {{order.DocNum}}
+              </div>
+            </div>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Enviar a: {{order.CardFName}}</p>
+          <p>{{order.CardName}}</p>
+          <p>Status:{{Status[order.Estatus]}}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-virtual-scroll>-->
+</ion-content>

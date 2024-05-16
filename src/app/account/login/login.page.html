@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-buttons slot="start">
+    <ion-icon
+      slot="icon-only"
+      name="wifi"
+      (click)="promptCodeDesc()"
+    ></ion-icon>
+  </ion-buttons>
+  <ion-title>{{link}}</ion-title>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div style="margin-top: 450px">
+    <form #form="ngForm" (ngSubmit)="login()">
+      <ion-input
+        class="email"
+        type="email"
+        [(ngModel)]="formData.email"
+        name="email"
+        placeholder="Correo Electronico"
+      ></ion-input>
+      <!-- pattern="[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})"> -->
+      <!-- </ion-input> -->
+
+      <ion-input
+        class="pass"
+        type="password"
+        [(ngModel)]="formData.password"
+        name="password"
+        required
+        placeholder="Contraseña"
+      ></ion-input>
+
+      <ion-button
+        class="logIn"
+        [disabled]="form.invalid"
+        shape="round"
+        type="submit"
+        >Ingresar</ion-button
+      >
+    </form>
+  </div>
+</ion-content>

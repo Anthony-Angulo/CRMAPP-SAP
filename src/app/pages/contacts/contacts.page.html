@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Clientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <img style="width:100%;" src="../../../assets/icon/market.png" alt="">
+  <ion-row>
+    <ion-col>
+      <ion-toolbar>
+        <ion-searchbar color="light" [(ngModel)]="searchText"></ion-searchbar>
+      </ion-toolbar>
+    </ion-col>
+  </ion-row>
+  <ion-virtual-scroll [items]="contactList | filterByPipe : searchText">
+    <ion-item *virtualItem="let contact">
+      <ion-card style="width: 100%" >
+        <ion-card-header>
+          <ion-card-subtitle>{{contact.CardFName}}</ion-card-subtitle>
+          <ion-card-title>{{contact.CardName}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Codigo Cliente: {{contact.CardCode}}</p>
+          <p>Direccion: {{contact.Address}}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-virtual-scroll>
+</ion-content>

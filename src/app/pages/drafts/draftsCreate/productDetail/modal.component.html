@@ -1,0 +1,95 @@
+<ion-header translucent>
+  <ion-toolbar style="--background: #1B1BFC;
+    color: #ffffff; ">
+    <ion-title>Detalle Producto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Aceptar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-col size="9" size-lg size="12" size-sm>
+    <ion-card style="border-radius: 20px">
+      <ion-card-header style="border-bottom: 1px solid">
+        <ion-card-subtitle>
+          Codigo: {{product.product.ItemCode}}
+        </ion-card-subtitle>
+        <ion-card-title>
+          Descripcion: {{product.product.ItemName}}
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-icon style="font-size: 40px;float: right;" name="add-circle" (click)="increment(product)">
+        </ion-icon>
+        <ion-icon style="font-size: 40px;float: right;" name="remove-circle" (click)="decrement(product)">
+        </ion-icon>
+        Precio: {{ product.seletedPriceList.Price | number }} {{ product.seletedPriceList.Currency }}<br>
+        Moneda:
+
+        <td *ngIf="product.seletedPriceList.Currency == 'MXN'">{{ product.seletedPriceList.Currency }}</td>
+
+        <td *ngIf="product.seletedPriceList.Currency == 'USD'">
+
+          <select class="custom-select" [ngModel]="product.seletedCurrency"
+            (ngModelChange)="product.seletedCurrency = $event">
+            <option [ngValue]="c" *ngFor="let c of ['USD','MXN']">{{ c }}</option>
+          </select>
+
+        </td>
+
+        Unidad de medida:
+        <td>
+          <select class="custom-select" [ngModel]="product.seletedUM.UomEntry"
+            (ngModelChange)="changeUM(product,$event)">
+            <option [ngValue]="um.UomEntry" *ngFor="let um of product.product.uom">{{ um.UomCode }}</option>
+          </select>
+        </td>
+
+        Cantidad:
+        <ion-item style="border: 1px solid #000000; border-radius: 3px;" lines="none">
+          <ion-input type="number" [(ngModel)]="product.Quantity" (ngModelChange)="productChange()"
+            (ionBlur)="productQuantity(product)"></ion-input>
+        </ion-item>{{product.UomName}}
+
+        <ion-item style="border: 1px solid #000000; border-radius: 3px;" lines="none">
+          {{ (product.Quantity * product.seletedUM.BaseQty).toFixed(2) }} {{ product.seletedUM.BASEUOM }}
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+
+  <td>Stock: {{ (product.stockSelected.OnHand | number) }} {{ product.seletedUM.BASEUOM }}</td>
+
+  <h6>Total</h6>
+
+  <div style="border: 1px solid #000000; border-radius: 3px;">
+    <ion-item lines="none" style="border-top:1px solid #000000; color: green">
+      Total: {{ (product.seletedPriceList.Price * product.Quantity * product.seletedUM.BaseQty).toFixed(2) }}
+      {{ product.seletedPriceList.Currency }}
+    </ion-item>
+  </div>
+
+  <h6>Total Moneda</h6>
+
+  <div style="border: 1px solid #000000; border-radius: 3px;">
+    <ion-item lines="none" style="border-top:1px solid #000000; color: green">
+      Total: <td *ngIf="product.seletedPriceList.Currency == 'MXN'">
+        {{ (product.seletedPriceList.Price * product.Quantity * product.seletedUM.BaseQty).toFixed(2)}}
+        {{ product.seletedPriceList.Currency }}
+      </td>
+
+      <td *ngIf="product.seletedPriceList.Currency == 'USD' && product.seletedCurrency == 'USD'">
+        {{ (product.seletedPriceList.Price * product.Quantity * product.seletedUM.BaseQty).toFixed(2) }}
+        USD
+      </td>
+
+      <td *ngIf="product.seletedPriceList.Currency == 'USD' && product.seletedCurrency == 'MXN'">
+        {{ (product.seletedPriceList.Price * product.Quantity * product.seletedUM.BaseQty * tipoCambio).toFixed(2) }}
+        MXN
+      </td>
+    </ion-item>
+  </div>
+
+</ion-content>

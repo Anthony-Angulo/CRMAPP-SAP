@@ -1,0 +1,31 @@
+<ion-header translucent>
+  <ion-toolbar style="--background: #1B1BFC;
+    color: #ffffff; ">
+    <ion-title>Detalle Producto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Aceptar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h4>Codigo: {{product.ItemCode}}</h4>
+  <h3>Producto: {{product.ItemName}}</h3>
+
+  <!-- Precio: {{product.priceList[0].Price}} {{product.priceList[0].Currency}} <br> -->
+  Stock:
+
+  <ion-list>
+
+    <ion-row *ngFor="let stock of product.stocks;let index=index">
+      <ion-col size="9" size-lg size="12" size-sm>
+
+        <ion-item lines="none" style="border:1px solid #000000">
+          {{ stock.WhsCode }}: {{ stock.OnHand }}
+        </ion-item>
+
+      </ion-col>
+    </ion-row>
+  </ion-list>
+
+</ion-content>

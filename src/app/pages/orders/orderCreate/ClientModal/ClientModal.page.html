@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="end">
+            <ion-button (click)="dismiss()">Aceptar</ion-button>
+            <ion-button (click)="exportar()">exportar a pdf</ion-button>
+
+        </ion-buttons>
+        <ion-title>Productos</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <img style="width:100%;" src="../../../assets/icon/market.png" alt="">
+    <ion-row style="width:100%;">
+        <ion-item style="width:100%;">
+            <ion-label>Categoria</ion-label>
+            <ion-select placeholder="Selecionar categoria" (ionChange)="cargar($event)">
+                <ion-select-option *ngFor="let item of items" value="{{item}}">{{item}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-toolbar>
+                <ion-searchbar color="light" [(ngModel)]="searchText"></ion-searchbar>
+            </ion-toolbar>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+
+        <ion-virtual-scroll [items]="productList | filterByPipe : searchText" approxItemHeight="80px">
+            <ion-list *virtualItem="let product">
+                <ion-item>
+                    {{product.ItemCode}} {{product.ItemName}} {{Estrellas[product.status]}}
+                </ion-item>
+            </ion-list>
+        </ion-virtual-scroll>
+    </ion-row>
+</ion-content>

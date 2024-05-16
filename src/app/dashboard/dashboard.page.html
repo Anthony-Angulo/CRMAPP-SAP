@@ -1,0 +1,61 @@
+<app-menu-left></app-menu-left>
+
+<ion-header>
+  <ion-toolbar class="tool-bar">
+    <ion-buttons slot="end">
+      <app-logout-button (logoutEvent)="logout()"></app-logout-button>
+    </ion-buttons>
+    <ion-title>Dashboard V9 Auths</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="background ion-text-center">
+  <div style="padding-top: 5%">
+    <ion-row>
+      <ion-col>
+        <ion-button color="light" routerLink="/contacts">
+          <img src="../../../assets/icon/clientes.png" />
+        </ion-button>
+      </ion-col>
+      <!-- <ion-col>
+        <ion-button color="light" [disabled]="!checkInStatus" routerLink="/draftMain">
+          <img src="../../../assets/icon/cotizaciones.png">
+        </ion-button>
+      </ion-col> -->
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button color="light" routerLink="/orderMain">
+          <img src="../../../assets/icon/pedidos.png" />
+        </ion-button>
+      </ion-col>
+      <!-- <ion-col>
+        <ion-button color="light" [disabled]="!checkInStatus" routerLink="/calendar">
+          <img src="../../../assets/icon/agenda.png">
+        </ion-button>
+      </ion-col> -->
+    </ion-row>
+    <ion-row>
+      <!-- <ion-col>
+        <ion-button color="light" [hidden]="checkInStatus" (click)="checkIn()">
+          <img src="../../../assets/icon/check-in.png">
+        </ion-button>
+        <ion-button color="light" [hidden]="!checkInStatus" (click)="checkOut()">
+          <img src="../../../assets/icon/check-out.png">
+        </ion-button>
+      </ion-col> -->
+      <ion-col>
+        <ion-button color="light" routerLink="/products">
+          <img src="../../../assets/icon/productos.png" />
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
+  <!--
+   <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary" (click)="updateAll()">
+      <ion-icon name="refresh"></ion-icon>
+        </ion-fab-button>
+  </ion-fab>
+  -->
+</ion-content>
