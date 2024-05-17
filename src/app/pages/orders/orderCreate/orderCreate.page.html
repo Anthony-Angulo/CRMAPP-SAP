@@ -9,13 +9,17 @@
         <ion-icon slot="start" name="refresh"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Pedidos CCFN</ion-title>
+    <ion-title>Crear Orden De Venta</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h6>Cliente</h6>
-
+  <h6>
+    <ion-chip color="danger">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Cliente</ion-label>
+    </ion-chip>
+  </h6>
   <ion-searchbar
     #clientSearchBar
     placeholder="Buscar Cliente"
@@ -35,7 +39,7 @@
   <ion-list *ngIf="contact">
     <ion-card color="light" class="cBord" (click)="ModalClientes(contact)">
       <ion-card-header class="cardH">
-        <ion-card-subtitle>{{contact.CardName}}</ion-card-subtitle>
+        <!-- <ion-card-subtitle>{{contact.CardName}}</ion-card-subtitle> -->
         <ion-card-subtitle>{{contact.CardFName}}</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
@@ -47,15 +51,15 @@
   </ion-list>
 
   <h6>
-    <ion-chip>
-      <ion-icon name="md-cash"></ion-icon>
+    <ion-chip color="danger">
+      <ion-icon name="cash-outline"></ion-icon>
       <ion-label>Pago</ion-label>
     </ion-chip>
   </h6>
   <ion-row>
     <ion-col>
       <ion-item class="sucItem" [disabled]="!contact">
-        <ion-label>Pago</ion-label>
+        <ion-label>Tipo De Pago</ion-label>
         <ion-select
           [(ngModel)]="payment"
           okText="Aceptar"
@@ -71,8 +75,8 @@
   </ion-row>
 
   <h6>
-    <ion-chip>
-      <ion-icon name="md-albums"></ion-icon>
+    <ion-chip color="danger">
+      <ion-icon name="business-outline"></ion-icon>
       <ion-label>Sucursal</ion-label>
     </ion-chip>
   </h6>
@@ -95,11 +99,17 @@
     </ion-col>
   </ion-row>
 
+  <h6>
+    <ion-chip color="danger">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <ion-label>Fecha De Entrega</ion-label>
+    </ion-chip>
+  </h6>
   <ion-row>
     <ion-col>
       <ion-item>
-        <ion-icon name="md-calendar"></ion-icon>
-        <ion-label>Fecha</ion-label>
+        <!-- <ion-icon name="md-calendar"></ion-icon> -->
+        <!-- <ion-label>Fecha</ion-label> -->
         <ion-datetime
           [(ngModel)]="date"
           picker-format="DD MMM YYYY"
@@ -113,23 +123,33 @@
     </ion-col>
   </ion-row>
 
+  <h6>
+    <ion-chip color="danger">
+      <ion-icon name="pencil-outline"></ion-icon>
+      <ion-label>Observaciones</ion-label>
+    </ion-chip>
+  </h6>
   <ion-row>
     <ion-col>
       <ion-item>
-        <ion-label position="floating">Observaciones</ion-label>
+        <!-- <ion-label position="floating">Observaciones</ion-label> -->
         <ion-textarea [(ngModel)]="comments" maxlength="230"></ion-textarea>
       </ion-item>
     </ion-col>
   </ion-row>
   <h6>
     Productos
-    <ion-chip (click)="AgregarGuardados()" *ngIf="Guardados>0 && warehouse">
-      <ion-icon name="cart"></ion-icon>
+    <ion-chip
+      (click)="AgregarGuardados()"
+      *ngIf="Guardados>0 && warehouse"
+      color="warning"
+    >
+      <ion-icon name="cart-outline"></ion-icon>
       <ion-label>Guardados:{{Guardados}}</ion-label>
     </ion-chip>
-    <ion-chip *ngIf="products.length>0 && warehouse">
-      <ion-icon name="cart"></ion-icon>
-      <ion-label>Productos:{{products.lengt}}</ion-label>
+    <ion-chip *ngIf="products.length>0 && warehouse" color="success">
+      <ion-icon name="cart-outline"></ion-icon>
+      <ion-label>Productos:{{products.length}}</ion-label>
     </ion-chip>
   </h6>
   <ion-searchbar

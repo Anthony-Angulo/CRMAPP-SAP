@@ -1,26 +1,26 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="orderMain"></ion-back-button>
-    </ion-buttons>
-    <ion-title> Pedidos</ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-fab slot="fixed" vertical="top" horizontal="end">
-  <ion-fab-button>
-    <ion-icon name="chevron-down-circle"></ion-icon>
-  </ion-fab-button>
-  <ion-fab-list side="bottom">
-    <ion-fab-button (click)="ShowAuth()">
-      <ion-icon name="document-lock-outline"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button (click)="ShowSAP()">
-      <ion-icon name="bag-check-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab-list>
-</ion-fab>
-
 <ion-content>
+  <ion-header>
+    <ion-toolbar class="tool-bar">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="orderMain"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Ordenes De Ventas Creadas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-fab slot="fixed" vertical="top" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="chevron-down-circle"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="ShowAuth()">
+        <ion-icon name="document-lock-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="ShowSAP()">
+        <ion-icon name="bag-check-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
   <!-- <div *ngIf="pendingOrderList.length > 0">Ordenes Pendientes</div>
   <ion-virtual-scroll [items]="pendingOrderList">
     <ion-item *virtualItem="let order; let index=index" [routerLink]="['/orderPendingDetail', index]">
@@ -36,8 +36,8 @@
       </ion-card>
     </ion-item>
   </ion-virtual-scroll> -->
-  <app-orderlistAuth [hidden]="!Autorizaciones"></app-orderlistAuth>
-  <app-orderlistSAP [hidden]="Autorizaciones"></app-orderlistSAP>
+  <app-orderlistSAP [hidden]="!Autorizaciones"></app-orderlistSAP>
+  <app-orderlistAuth [hidden]="!AutorizacionesAuth"></app-orderlistAuth>
 
   <!--<div *ngIf="orderList.length > 0">Ordenes</div>
   <ion-virtual-scroll [items]="orderList">

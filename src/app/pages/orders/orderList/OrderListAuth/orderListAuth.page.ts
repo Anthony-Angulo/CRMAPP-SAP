@@ -28,7 +28,7 @@ export class OrderListAuth implements OnInit {
   Status = Status;
   backgrounds = backgrounds;
   _SAP_IP: any;
-  orderList = [];
+  orderListAuth = [];
   pendingOrderList = [];
   contactList = [];
   contact: any;
@@ -97,8 +97,8 @@ export class OrderListAuth implements OnInit {
               break;
           }
         });
-        this.orderList = data;
-        console.log(this.orderList);
+        this.orderListAuth = data;
+        console.log(this.orderListAuth);
       })
       .then(() => {
         return this.contactService.getContacts();
@@ -135,6 +135,9 @@ export class OrderListAuth implements OnInit {
             .toPromise()
             .then((data) => {
               return data;
+            })
+            .catch(() => {
+              this.orderListAuth = [];
             });
         } else {
           return this.http
@@ -169,8 +172,8 @@ export class OrderListAuth implements OnInit {
               break;
           }
         });
-        this.orderList = data;
-        console.log(this.orderList);
+        this.orderListAuth = data;
+        console.log(this.orderListAuth);
       })
       .finally(() => this.load.dismiss());
   }

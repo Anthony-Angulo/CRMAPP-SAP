@@ -5,7 +5,9 @@
     <ion-buttons slot="end">
       <app-logout-button (logoutEvent)="logout()"></app-logout-button>
     </ion-buttons>
-    <ion-title>Dashboard V9 Auths</ion-title>
+    <div *ngIf="usuario">
+      <ion-title>Bienvenid@ {{usuario.AppLogin.Name}}</ion-title>
+    </div>
   </ion-toolbar>
 </ion-header>
 

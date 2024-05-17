@@ -28,6 +28,7 @@ const CHECK_IN = "CHECK_IN";
 export class DashboardPage {
   checkInStatus = false;
   private hubConnectionBuilder!: HubConnection;
+  usuario: any;
 
   constructor(
     private network: Network,
@@ -43,14 +44,17 @@ export class DashboardPage {
     private storage: Storage
   ) {}
 
-  ionViewWillEnter() {
-    this.storage.get(CHECK_IN).then((val) => {
-      if (val) {
-      } else {
-      }
-    });
+  // ionViewWillEnter() {
+  //   this.storage.get(CHECK_IN).then((val) => {
+  //     if (val) {
+  //     } else {
+  //     }
+  //   });
+  // }
+  async ngOnInit() {
+    this.usuario = await this.storage.get("USER");
+    console.log(this.usuario);
   }
-  ngOnInit() {}
   checkIn() {
     this.storage.set(CHECK_IN, this.checkInStatus);
   }

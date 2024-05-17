@@ -1,58 +1,104 @@
 <ion-header no-border>
-    <ion-toolbar class="tool-bar">
-        <ion-buttons slot="start">
-            <ion-back-button defaultHref="dashboard"></ion-back-button>
-        </ion-buttons>
-        <ion-title>Ordenes De Venta</ion-title>
-    </ion-toolbar>
-    <!-- <img style="width:100%;" src="../../../assets/icon/market.png" alt=""> -->
+  <ion-toolbar class="tool-bar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ordenes De Venta</ion-title>
+  </ion-toolbar>
+  <!-- <img style="width:100%;" src="../../../assets/icon/market.png" alt=""> -->
 </ion-header>
 <ion-content>
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-    <div *ngIf="pendingOrderList.length > 0">Ordenes Pendientes</div>
-    <ion-virtual-scroll [items]="pendingOrderList">
-        <ion-item *virtualItem="let order; let index=index" [routerLink]="['/orderPendingDetail', index]">
-            <ion-card style="width: 100%">
-                <!-- <ion-card-header>
+  <div *ngIf="pendingOrderList.length > 0; else none">
+    <ion-row>
+      <ion-col>
+        <h3>Ordenes Pendientes Almacenadas</h3>
+      </ion-col>
+    </ion-row>
+  </div>
+  <ion-virtual-scroll [items]="pendingOrderList">
+    <ion-item
+      *virtualItem="let order; let index=index"
+      [routerLink]="['/orderPendingDetail', index]"
+    >
+      <ion-card style="width: 100%">
+        <ion-card-header>
           <ion-card-title>
-            <p>Numero Pedido: {{order.order.order_number}}</p>
+            <p>{{order.contact.CardFName}}</p>
           </ion-card-title>
-        </ion-card-header> -->
-                <ion-card-content>
-                    <p>Enviar a: {{order.contact.CardName}}</p>
-                </ion-card-content>
-            </ion-card>
-        </ion-item>
-    </ion-virtual-scroll>
+        </ion-card-header>
+        <ion-card-content>
+          <h6>Fecha: {{order.date}}</h6>
+          <h6>Moneda: {{order.currency}}</h6>
+          <h6>Almacen: {{order.warehouse.WhsName}}</h6>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-virtual-scroll>
+  <ng-template #none>
+    <ion-row>
+      <ion-col>
+        <img
+          style="width: 50%; align-items: center; padding-top: 150px"
+          src="../../../assets/img/dbv.png"
+          alt=""
+        />
+        <ion-row>
+          <ion-col>
+            <div class="ion-text-center">
+              <h5>Almacenamiento Interno Vacio. Sin Ordenes Pendientes.</h5>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ng-template>
 </ion-content>
 
-<ion-footer no-shadow style="height:20%;">
-    <ion-toolbar position="bottom" class="foo-tool ion-no-padding">
-        <div style="position:relative;z-index:2;">
-            <ion-row style="padding-top: 3%">
-                <ion-col>
-                    <ion-button class="allPedidos" [routerLink]="['/orderList']">
-                        <ion-icon name="clipboard"></ion-icon>Mis Pedidos Registrados
-                    </ion-button>
-                </ion-col>
-            </ion-row>
-            <ion-row style="height: -webkit-fill-available;">
-                <!--
+<ion-footer no-shadow style="height: 10%; background-color: #1b1bfc">
+  <ion-toolbar position="bottom" class="foo-tool ion-no-padding">
+    <div style="position: relative; z-index: 2; background-color: #1b1bfc">
+      <ion-row style="padding-top: 3%">
+        <!-- <ion-col>
+          <ion-button class="allPedidos" [routerLink]="['/orderList']">
+            <ion-icon name="clipboard"> </ion-icon> Ordenes Registradas
+          </ion-button>
+        </ion-col> -->
+      </ion-row>
+      <ion-row style="height: -webkit-fill-available">
+        <!--
         <ion-col>
           <ion-button class="foot-but" size="{{button_size}}" routerLink="/dashboard">
             <ion-icon name="apps"></ion-icon>
           </ion-button>
         </ion-col>
             -->
-                <ion-col>
-                    <ion-button class="foot-but" disabled="{{CanSale}}" size="{{button_size}}" routerLink="/orderCreate">
-                        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
-                    </ion-button>
-                </ion-col>
-                <!--
+        <ion-col>
+          <ion-button
+            color="success"
+            class="foot-but"
+            disabled="{{CanSale}}"
+            size="{{button_size}}"
+            [routerLink]="['/orderList']"
+          >
+            <ion-icon name="clipboard"> </ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button
+            color="dark"
+            class="foot-but"
+            disabled="{{CanSale}}"
+            size="{{button_size}}"
+            routerLink="/orderCreate"
+          >
+            <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <!--
           <ion-col>
           <ion-button class="foot-but" size="{{button_size}}" routerLink="/notifications">
             <ion-icon slot="icon-only" name="notifications"></ion-icon>
@@ -60,7 +106,7 @@
           </ion-button>
         </ion-col>
       -->
-            </ion-row>
-        </div>
-    </ion-toolbar>
+      </ion-row>
+    </div>
+  </ion-toolbar>
 </ion-footer>

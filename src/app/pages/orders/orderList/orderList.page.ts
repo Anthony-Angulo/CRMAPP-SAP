@@ -21,7 +21,8 @@ enum backgrounds {
   styleUrls: ["./orderList.page.scss"],
 })
 export class OrderListPage {
-  Autorizaciones = false;
+  Autorizaciones: boolean = true;
+  AutorizacionesAuth: boolean = false;
   Status = Status;
   backgrounds = backgrounds;
 
@@ -36,9 +37,11 @@ export class OrderListPage {
   ) {}
   ShowAuth() {
     console.log("Auth");
-    this.Autorizaciones = true;
+    this.AutorizacionesAuth = true;
+    this.Autorizaciones = false;
   }
   ShowSAP() {
-    this.Autorizaciones = false;
+    this.Autorizaciones = true;
+    this.AutorizacionesAuth = false;
   }
 }

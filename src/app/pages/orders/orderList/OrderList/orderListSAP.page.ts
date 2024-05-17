@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { ToastController } from "@ionic/angular";
+import { ToastController, LoadingController } from "@ionic/angular";
 import { UserService } from "src/app/account/services/user.service";
 import { OrderService } from "src/app/services/order.service";
 import { environment } from "src/environments/environment";
@@ -31,11 +31,18 @@ export class OrderListPageSAP implements OnInit {
     private orderService: OrderService,
     public toastController: ToastController,
     private userService: UserService,
-    private http: HttpClient
+    private http: HttpClient,
+    public loadingController: LoadingController
   ) {}
 
-  ngOnInit() {
-    this.orderService
+  async ngOnInit() {
+    const loading = await this.loadingController.create({
+      message: "Obteniendo Ordenes SAP B1 ...",
+    });
+
+    await loading.present();
+
+    await this.orderService
       .getDataFromDatabase()
       .then(() => {
         this.getOrders();
@@ -48,13 +55,17 @@ export class OrderListPageSAP implements OnInit {
           this.presentToast("Error al Actualizar. " + error);
         }
       })
-      .finally(() => {});
+      .finally(() => {
+        loading.dismiss();
+      });
   }
 
-  getOrders() {
-    this.orderService.getOrders().then((orderList) => {
+  async getOrders() {
+    await this.orderService.getOrders().then((orderList) => {
       this.orderList = orderList || [];
     });
+
+    console.log(this.orderList.length);
 
     this.orderService.getPendingOrders().then((orderList) => {
       this.pendingOrderList = orderList || [];

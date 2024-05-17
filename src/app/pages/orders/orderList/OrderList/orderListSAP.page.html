@@ -1,43 +1,55 @@
 <ion-content>
-  <!-- <div *ngIf="pendingOrderList.length > 0">Ordenes Pendientes</div>
-  <ion-virtual-scroll [items]="pendingOrderList">
-    <ion-item *virtualItem="let order; let index=index" [routerLink]="['/orderPendingDetail', index]">
-      <ion-card style="width: 100%"> -->
-  <!-- <ion-card-header>
-          <ion-card-title>
-            <p>Numero Pedido: {{order.order.order_number}}</p>
-          </ion-card-title>
-        </ion-card-header> -->
-  <!-- <ion-card-content>
-          <p>Enviar a: {{order.contact.CardFName}}</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-  </ion-virtual-scroll> -->
-  <div *ngIf="orderList.length > 0">Ordenes</div>
-  <ion-virtual-scroll [items]="orderList">
-    <ion-item
-      *virtualItem="let order; let index=index"
-      [routerLink]="['/orderDetail', order.DocEntry]"
-    >
-      <ion-card style="width: 100%">
-        <ion-card-header>
-          <ion-card-title>
-            <div>
-              <div [ngClass]="[Status[order.Estatus],'Pedido']">
-                Pedido: {{order.DocNum}}
+  <div *ngIf="orderList.length > 0; else none">
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <h5>Ordenes Creadas SAP B1.</h5>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-virtual-scroll [items]="orderList">
+      <ion-item
+        *virtualItem="let order; let index=index"
+        [routerLink]="['/orderDetail', order.DocEntry]"
+      >
+        <ion-card style="width: 100%">
+          <ion-card-header>
+            <ion-card-title>
+              <div>
+                <div [ngClass]="[Status[order.Estatus],'Pedido']">
+                  Pedido: {{order.DocNum}}
+                </div>
               </div>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Almacen:{{order.WhsName}}</p>
+            <p>Enviar a: {{order.CardFName}}</p>
+            <p>{{order.CardName}}</p>
+            <p>Status:{{Status[order.Estatus]}}</p>
+            <p>Impresa:{{order.Printed=="Y"?"SI":"NO"}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-virtual-scroll>
+  </div>
+  <ng-template #none>
+    <ion-row>
+      <ion-col>
+        <img
+          style="width: 100%; align-items: center; padding-top: 150px"
+          src="../../../assets/img/carrito.png"
+          alt=""
+        />
+        <ion-row>
+          <ion-col>
+            <div class="ion-text-center">
+              <h5>Sin Ordenes Guardadas En SAP B1.</h5>
             </div>
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p>Almacen:{{order.WhsName}}</p>
-          <p>Enviar a: {{order.CardFName}}</p>
-          <p>{{order.CardName}}</p>
-          <p>Status:{{Status[order.Estatus]}}</p>
-          <p>Impresa:{{order.Printed=="Y"?"SI":"NO"}}</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-  </ion-virtual-scroll>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ng-template>
 </ion-content>

@@ -1,20 +1,11 @@
 <ion-content>
-  <!-- <div *ngIf="pendingOrderList.length > 0">Ordenes Pendientes</div>
-  <ion-virtual-scroll [items]="pendingOrderList">
-    <ion-item *virtualItem="let order; let index=index" [routerLink]="['/orderPendingDetail', index]">
-      <ion-card style="width: 100%"> -->
-  <!-- <ion-card-header>
-          <ion-card-title>
-            <p>Numero Pedido: {{order.order.order_number}}</p>
-          </ion-card-title>
-        </ion-card-header> -->
-  <!-- <ion-card-content>
-          <p>Enviar a: {{order.contact.CardFName}}</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-  </ion-virtual-scroll> -->
-  <div *ngIf="orderList.length > 0">Ordenes en Autorizaciones</div>
+  <ion-row>
+    <ion-col>
+      <div class="ion-text-center">
+        <h5>Ordenes en Autorizacion</h5>
+      </div>
+    </ion-col>
+  </ion-row>
   <ion-row>
     <ion-col>
       <ion-item>
@@ -58,32 +49,58 @@
     </ion-virtual-scroll>
   </ion-list>
   <div *ngIf="contact">
-    <h5>{{contact.CardFName}}</h5>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <h5>{{contact.CardFName}}</h5>
+        </div>
+      </ion-col>
+    </ion-row>
   </div>
 
   <ion-button expand="block" (click)="Buscar()">Buscar</ion-button>
-  <ion-list>
-    <ion-item
-      *ngFor="let order of orderList"
-      [routerLink]="['/orderAuthDetail', order.id]"
-    >
-      <ion-card style="width: 100%">
-        <ion-card-header>
-          <ion-card-title>
-            <div>
-              <div [ngClass]="[Status[order.status],'Pedido']">
-                Pedido: {{order.id}}
+  <div *ngIf="orderListAuth.length > 0; else none">
+    <ion-list>
+      <ion-item
+        *ngFor="let order of orderListAuth"
+        [routerLink]="['/orderAuthDetail', order.id]"
+      >
+        <ion-card style="width: 100%">
+          <ion-card-header>
+            <ion-card-title>
+              <div>
+                <div [ngClass]="[Status[order.status],'Pedido']">
+                  Pedido: {{order.id}}
+                </div>
               </div>
-            </div>
-          </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p>Enviar a: {{order.CardFName}}</p>
-          <p>{{order.CardName}}</p>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Enviar a: {{order.CardFName}}</p>
+            <p>{{order.CardName}}</p>
 
-          <p>Status:{{Status[order.status]}}</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-  </ion-list>
+            <p>Status:{{Status[order.status]}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+  </div>
+  <ng-template #none>
+    <ion-row>
+      <ion-col>
+        <img
+          style="width: 100%; align-items: center; padding-top: 50px"
+          src="../../../assets/img/check.webp"
+          alt=""
+        />
+        <ion-row>
+          <ion-col>
+            <div class="ion-text-center">
+              <h5>Sin Ordenes Pendientes De Autorizar.</h5>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ng-template>
 </ion-content>
